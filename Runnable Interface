@@ -1,0 +1,47 @@
+package com.runableeInterface;
+
+public class RunableInterface implements Runnable{
+	
+	public void run() {
+		for (int i = 1; i <= 10; i++) {
+			System.out.println(i * 9 );
+			
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			System.out.println(i * 11);
+			
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		RunableInterface cute = new RunableInterface();
+		
+		Thread td = new Thread(cute);
+		
+		td.start();
+		
+		
+		 try {
+	            // Wait for the thread to finish before proceeding (optional)
+	            td.join();
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+		
+		
+
+			System.out.println(555+5);
+	}
+
+}
