@@ -1,0 +1,92 @@
+package com.singlemethod;
+
+import java.util.Scanner;
+
+public class TrainTicketBooking extends Thread {
+	
+	// can access in main method without worry used STATIC keyword
+	private static int available_seats = 10;
+	
+	// created them private for safety reason and to use in run method made it outside method
+	private String customerNaam;
+	private int reqSeats;
+	
+	TrainTicketBooking(String customerName, int seats){
+		this.customerNaam = customerName;
+		this.reqSeats = seats;
+	}
+	
+	
+	// most important use SYNCHRONIZED to let only one thread to access critical section
+	public synchronized void run() {
+		
+			if (reqSeats <= available_seats) {
+                System.out.println(customerNaam + " booked " + reqSeats + " tickets.");
+                available_seats -= reqSeats;
+                System.out.println(available_seats + " Seats left"  );
+                System.out.println();
+            } else {
+            	if (available_seats != 0) {
+                    System.out.println(reqSeats + " seats not available for " + customerNaam);
+                    System.out.println("Only " + available_seats + " left");
+                    System.out.println();
+                } else {
+                    System.out.println("Sorry not available for " + customerNaam);
+                }
+            }
+		
+		
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		//Get input from user
+		
+		Scanner sc = new Scanner (System.in);
+		
+		System.out.println("Enter number of ticket for c1 : ");
+        int a = sc.nextInt();
+
+        System.out.println("Enter number of ticket for c2 : ");
+        int b = sc.nextInt();
+
+        System.out.println("Enter number of ticket for c3 : ");
+        int c = sc.nextInt();
+		
+	
+        //we will use constructor to get the details create a parameterized outside method to access
+        
+		TrainTicketBooking c1 = new TrainTicketBooking("Rohan", a);
+		TrainTicketBooking c2 = new TrainTicketBooking("Vishal", b);
+		TrainTicketBooking c3 = new TrainTicketBooking("Bhushan", c);
+		
+		
+		// we will use the power of join which waits fo the current thread to complete its operation 
+		// so one by one make it so START & JOIN
+		
+		c1.start();
+		try {
+			c1.join();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		c2.start();
+		try {
+			c2.join();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		c3.start();
+		try {
+			c3.join();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		System.out.println("Final number of seats left is " + available_seats);
+		System.out.println("Hurry Up and book your tickets now !!!");
+	}
+
+}
